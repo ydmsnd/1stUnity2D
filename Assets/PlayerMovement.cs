@@ -5,31 +5,42 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    Rigidbody2D playerRB;
+
+    bool isJumpInput = false;
+
     // Start is called before the first frame update
+
     void Start()
     {
-       
+        playerRB = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-            {
-                Rigidbody2D playersRB = GetComponent<Rigidbody2D>();
-                playersRB.AddForce(Vector2.up * 200f);
-            }
-        if(Input.GetKeyDown(KeyCode.D))
-            {
-                Rigidbody2D playersRB = GetComponent<Rigidbody2D>();
-                playersRB.AddForce(Vector2.right * 200f);
-            }
-        if (Input.GetKeyDown(KeyCode.A))
+        if(Input.GetKeyDown(KeyCode.Space))
         {
-            Rigidbody2D playersRB = GetComponent<Rigidbody2D>();
-            playersRB.AddForce(Vector2.left * 200f);
+            isJumpInput = true;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (isJumpInput)
+        {
+            playerRB.AddForce(Vector2.up * 200f);
+            isJumpInput = false;
         }
 
-        //Debug.Log(keypressed);
+        if (Input.GetKey(KeyCode.D))
+        {
+            playerRB.AddForce(Vector2.right * 1000f * Time.deltaTime);
+        }
+
+        if (Input.GetKey(KeyCode.A))
+        {
+            playerRB.AddForce(Vector2.left * 1000f * Time.deltaTime);
+        }
     }
 }
