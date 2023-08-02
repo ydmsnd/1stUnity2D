@@ -17,7 +17,11 @@ public class Gun : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 mousePosition = Camera.main.ScreenToViewportPoint(Input.mousePosition);
-            mousePosition.z = 0;
+            mousePosition.z = transform.position.z;
+
+            Vector3 directiontoMouse = mousePosition - transform.position;
+            float angle = Mathf.Atan2(directiontoMouse.x, directiontoMouse.y); *Mathf.Rad2Deg;
+
             Quaternion test = Quaternion.Euler(0, 0, 30f);
             Instantiate(BulletTemplate, transform.position, test);
         }
