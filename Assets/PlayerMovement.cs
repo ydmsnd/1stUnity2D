@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody2D playerRB;
 
     bool isJumpInput = false;
+    bool isGrounded = true;
 
     // Start is called before the first frame update
 
@@ -29,8 +30,12 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isJumpInput)
         {
-            playerRB.AddForce(Vector2.up * 200f);
-            isJumpInput = false;
+            if (isGrounded)
+            {
+                playerRB.AddForce(Vector2.up * 400f);
+                isJumpInput = false;
+            }
+            
         }
 
         if (Input.GetKey(KeyCode.D))
@@ -42,5 +47,15 @@ public class PlayerMovement : MonoBehaviour
         {
             playerRB.AddForce(Vector2.left * 1000f * Time.deltaTime);
         }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        isGrounded = true;
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        isGrounded = false;
     }
 }
